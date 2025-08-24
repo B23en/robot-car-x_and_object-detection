@@ -6,6 +6,8 @@
 
 dataset/**/*.jpg
 dataset/_unused
+dataset_street_signs/
+
 docs/*
 etc/*
 models/*
