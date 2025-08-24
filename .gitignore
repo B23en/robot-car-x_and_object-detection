@@ -3,10 +3,12 @@
 *.log
 **/__pycache__/
 
-dataset/f_images/*
-dataset/images/*
+dataset/**/*.jpg
+dataset/_unused
+docs/*
 etc/*
 models/*
+!models/yolo11n.pt
 
 # unused files
 dataset/test.json
