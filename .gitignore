@@ -1,0 +1,13 @@
+.venv
+.DS_Store
+*.log
+**/__pycache__/
+
+dataset/f_images/*
+dataset/images/*
+etc/*
+models/*
+
+# unused files
+dataset/test.json
+dataset/train.json
