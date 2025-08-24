@@ -9,6 +9,7 @@ dataset/_unused
 docs/*
 etc/*
 models/*
+runs/
 !models/best.pt
 
 # unused files
