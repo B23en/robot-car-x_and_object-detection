@@ -2,13 +2,14 @@
 .DS_Store
 *.log
 **/__pycache__/
+**/*.cache
 
 dataset/**/*.jpg
 dataset/_unused
 docs/*
 etc/*
 models/*
-!models/yolo11n.pt
+!models/best.pt
 
 # unused files
 dataset/test.json
