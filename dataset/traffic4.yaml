@@ -1,6 +1,7 @@
 train: images/train
 val: images/val
 
+nc: 4
 names:
   0: go_straight
   1: turn_left

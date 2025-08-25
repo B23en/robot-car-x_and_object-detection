@@ -9,24 +9,25 @@ def pick_device():
 
 device = pick_device()
 print(f"device: {device}")
-model = YOLO("models/best.pt")
+model = YOLO("models/yolo11s.pt")
 
-ROOT = Path("/Users/sonwonbin/vscode/Project/Robot-car-project/dataset_street_signs")
+ROOT = Path("/Users/sonwonbin/vscode/Project/Robot-car-project/dataset")
 
-yaml_dir = ROOT / "street_signs.yaml"
+yaml_dir = ROOT / "traffic4.yaml"
 
 results = model.train(
     data=yaml_dir,
     device=device,
-    epochs=50,
+    epochs=40,
     imgsz=640,
     batch=16,
     fliplr=0.0,
     degrees=0.0,
-    translate=0.05, scale=0.5, shear=0.0,
+    translate=0.05, scale=0.5, shear=2.0,
     hsv_h=0.015, hsv_s=0.7, hsv_v=0.4,
-    freeze=10,
-    patience=5
+    mosaic=0.6, close_mosaic=15,
+    freeze=0,
+    patience=10
 )
 
 metrics = model.val(data=yaml_dir, device=device, imgsz=640, plots=True)
