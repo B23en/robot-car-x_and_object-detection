@@ -101,6 +101,12 @@ def turn_right(px, th):
     time.sleep(1)
     px.stop()
     time.sleep(0.1)
+    # px.set_cam_pan_angle(15)
+    # time.sleep(1)
+    # px.set_cam_pan_angle(-15)
+    # time.sleep(1)
+    # px.set_cam_pan_angle(0)
+    # time.sleep(0.1)
 
     print("turn right done.")
 
