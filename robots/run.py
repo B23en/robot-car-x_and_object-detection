@@ -3,7 +3,7 @@ from modules import *
 from picarx import Picarx
 import time
 
-TH = 1000
+TH = 650
 px = Picarx()
 
 def picar_init():
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     finally:
         px.stop()
         time.sleep(0.3)
-        px.set_cam_tilt_angle(10)
+        px.set_cam_tilt_angle(0)
         time.sleep(0.3)
         px.set_dir_servo_angle(0)
         time.sleep(0.1)

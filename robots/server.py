@@ -89,7 +89,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     print("[SERVER] Decode failed (frame None)")
                     continue
                 # YOLO inference (CPU by default); set device="mps"/"cuda" if available
-                results = model(frame, verbose=False, device="mps", conf=0.7)
+                results = model(frame, verbose=False, device="mps", conf=0.67)
                 curr, second, size, s_size = checker.check(results)
                 print(f"curr: {curr}, second: {second}, size: {size}, s_size: {s_size}, gap: {size-s_size}")
                 curr_sign = curr

@@ -10,7 +10,7 @@ class CheckBbox:
         self.second_bbox = {}
 
         self.size_offset = 40000
-        self.detection_size = 10000
+        self.detection_size = 9500
 
     def check(self, pred_results):
         bbox_list = {}

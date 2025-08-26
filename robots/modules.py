@@ -23,9 +23,9 @@ def track(px: Picarx, th):
         time.sleep(0.5)
         if curr_sign == "go_straight":
             go_straight(px)
-            px.forward(20)
-            time.sleep(0.5)
-            px.stop()
+            # px.forward(20)
+            # time.sleep(0.5)
+            # px.stop()
         elif curr_sign == "turn_left":
             turn_left(px, th)
         elif curr_sign == "turn_right":
@@ -41,13 +41,12 @@ def track(px: Picarx, th):
             stop_and_turn_right(px, th)
         else:
             px.forward(10)
-            time.sleep(0.2)
+            time.sleep(0.1)
             px.stop()
         
         reset_sign()
         time.sleep(0.5)
         # detect_around(px)
-        time.sleep(0.5)
         return
 
     print(f"[track] - l({l}) m({m}) r({r})", end=' >> ')
@@ -58,11 +57,11 @@ def track(px: Picarx, th):
     elif l > th:
         print("'left'")
         px.set_dir_servo_angle(-20)
-        px.forward(20)
+        px.forward(15)
     elif r > th:
         print("'right'")
         px.set_dir_servo_angle(20)
-        px.forward(20)
+        px.forward(15)
     # elif m < th/3 and l < th/3 and r < th/3:
     #     print("'stop'")
     #     px.stop()
@@ -154,8 +153,8 @@ def go_straight(px):
 def wait(px):
     print("[wait]")
     px.stop()
-    wait_time = 5
-    for t in range(5):
+    wait_time = 3
+    for t in range(wait_time):
         time.sleep(1)
         print(f"wait - {t+1}")
 
