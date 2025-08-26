@@ -7,6 +7,8 @@
 dataset/**/*.jpg
 dataset/_unused
 dataset_street_signs/
+dataset_left_right/
+merged_dataset/
 
 docs/*
 etc/*

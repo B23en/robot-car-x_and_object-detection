@@ -1,0 +1,157 @@
+from picarx import Picarx
+import socket
+
+# Change this to your Mac's mDNS hostname (e.g., "aaa.local") or IP address on the same LAN
+SERVER_HOST = "172.20.10.13"
+SERVER_CMD_PORT = 5002
+import time
+
+sign = "none"
+
+def test(px: Picarx):
+    print("test")
+
+def track(px: Picarx, th):
+    l, m, r = px.get_grayscale_data()
+
+    if l > th and m > th and r > th:
+        px.stop()
+        curr_sign = request_sign()
+        print(f"curr_sign: {curr_sign}")
+        
+        time.sleep(0.5)
+        if curr_sign == "go_straight":
+            go_straight(px)
+        elif curr_sign == "turn_left":
+            turn_left(px, th)
+        elif curr_sign == "turn_right":
+            turn_right(px, th)
+        elif curr_sign == "stop":
+            wait(px)
+        else:
+            px.forward(20)
+        
+        time.sleep(1)
+        return
+
+    print(f"[track] - l({l}) m({m}) r({r})", end=' >> ')
+    if m > th:
+        print("'forward'")
+        px.set_dir_servo_angle(0)
+        px.forward(20)
+    elif l > th:
+        print("'left'")
+        px.set_dir_servo_angle(-25)
+        px.forward(20)
+    elif r > th:
+        print("'right'")
+        px.set_dir_servo_angle(25)
+        px.forward(20)
+    elif m < th/2 and l < th/2 and r < th/2:
+        print("'stop'")
+        px.stop()
+    else:
+        print("'forward?'")
+        px.set_dir_servo_angle(0)
+        px.forward(20)
+
+# turn right sign
+def turn_right(px, th): 
+    print("[turn_right]")
+    px.stop()
+    time.sleep(0.5)
+    px.backward(20)
+    time.sleep(0.49)
+    px.stop()
+    time.sleep(0.5)
+    px.set_dir_servo_angle(25)
+    time.sleep(0.5)
+    px.forward(30)
+    time.sleep(1.8)
+    px.stop()
+    time.sleep(0.5)
+
+    while True:
+        l, m, r = px.get_grayscale_data()
+        if r > th:
+            break
+        print("tune")
+        px.forward(10)
+        time.sleep(0.1)
+    print("turn right done.")
+
+# turn left sign
+def turn_left(px, th):
+    print("[turn_left]")
+    px.stop()
+    time.sleep(0.5)
+    px.backward(20)
+    time.sleep(0.49)
+    px.stop()
+    time.sleep(0.5)
+    px.set_dir_servo_angle(-25)
+    time.sleep(0.5)
+    px.forward(30)
+    time.sleep(1.8)
+    px.stop()
+    time.sleep(0.5)
+
+    while True:
+        l, m, r = px.get_grayscale_data()
+        if l > th:
+            break
+        print("tune")
+        px.forward(10)
+        time.sleep(0.1)
+    print("turn left done.")
+
+# go straight
+def go_straight(px):
+    print("[go_straight]")
+    px.stop()
+    time.sleep(0.5)
+
+# wait for a few seconds
+def wait(px):
+    print("[wait]")
+    px.stop()
+    wait_time = 5
+    for t in range(5):
+        time.sleep(1)
+        print(f"wait - {t+1}")
+
+def return_to_line(px):
+    pass
+
+def arrive(px):
+    pass
+
+def request_sign(host: str = SERVER_HOST, port: int = SERVER_CMD_PORT, timeout: float = 1.0):
+    """Ask the Mac server for the latest detected sign via a tiny TCP command (GET_SIGN).
+
+    Returns the sign string (e.g., "turn_left", "turn_right", "go_straight", "stop", "none"), or None on error.
+    """
+    try:
+        with socket.create_connection((host, port), timeout=timeout) as sock:
+            sock.sendall(b"GET_SIGN\n")
+            resp = sock.recv(64)
+            if not resp:
+                return None
+            return resp.decode("utf-8", "ignore").strip()
+    except Exception as e:
+        print(f"[request_sign] error: {e}")
+        return None
+
+def reset_sign(host: str = SERVER_HOST, port: int = SERVER_CMD_PORT, timeout: float = 1.0):
+    """Request the Mac server to reset its current detected sign to "none".
+
+    Returns True on success (server replies b"OK"), otherwise False.
+    """
+    try:
+        with socket.create_connection((host, port), timeout=timeout) as sock:
+            sock.sendall(b"RESET_SIGN\n")
+            resp = sock.recv(16)
+            return resp == b"OK"
+    except Exception as e:
+        print(f"[reset_sign] error: {e}")
+        return False

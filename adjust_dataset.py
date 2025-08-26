@@ -1,12 +1,16 @@
 from pathlib import Path
 
-TARGET_FOLDER = Path(r"/Users/sonwonbin/vscode/Project/Robot-car-project/dataset_street_signs/train/labels")
+TARGET_FOLDER = Path(r"/Users/sonwonbin/vscode/Project/Robot-car-project/dataset_left_right/val/labels")
 
+# CLASS_MAP = {
+#     5: 0,
+#     2: 1,
+#     3: 2,
+#     4: 3
+# }
 CLASS_MAP = {
-    5: 0,
-    2: 1,
-    3: 2,
-    4: 3
+    0: 1,
+    1: 2
 }
 
 for f in TARGET_FOLDER.rglob("*.txt"):
@@ -18,3 +22,5 @@ for f in TARGET_FOLDER.rglob("*.txt"):
             out.append(" ".join(a))
 
     f.write_text("\n".join(out) + "\n", encoding="utf-8")
+
+print("done.")

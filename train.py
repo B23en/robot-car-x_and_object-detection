@@ -11,7 +11,7 @@ device = pick_device()
 print(f"device: {device}")
 model = YOLO("models/yolo11s.pt")
 
-ROOT = Path("/Users/sonwonbin/vscode/Project/Robot-car-project/dataset")
+ROOT = Path("/Users/sonwonbin/vscode/Project/Robot-car-project/merged_dataset")
 
 yaml_dir = ROOT / "traffic4.yaml"
 
@@ -25,7 +25,7 @@ results = model.train(
     degrees=0.0,
     translate=0.05, scale=0.5, shear=2.0,
     hsv_h=0.015, hsv_s=0.7, hsv_v=0.4,
-    mosaic=0.6, close_mosaic=15,
+    # mosaic=0.7, close_mosaic=5,
     freeze=0,
     patience=10
 )
