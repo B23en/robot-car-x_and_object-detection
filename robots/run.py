@@ -7,13 +7,14 @@ TH = 1000
 px = Picarx()
 
 def picar_init():
-    px.set_cam_tilt_angle(15)
+    px.set_cam_tilt_angle(10)
 
 def start(px: Picarx):
     print("activate.")
 
     time.sleep(2)
     picar_init()
+    time.sleep(1)
     print("start.")
     while True:
         track(px, TH)
@@ -26,4 +27,8 @@ if __name__ == "__main__":
         pass
     finally:
         px.stop()
+        time.sleep(0.3)
+        px.set_cam_tilt_angle(10)
+        time.sleep(0.3)
         px.set_dir_servo_angle(0)
+        time.sleep(0.1)
