@@ -8,7 +8,9 @@ class CheckBbox:
         }
         self.curr_bbox = {}
         self.second_bbox = {}
+
         self.size_offset = 40000
+        self.detection_size = 10000
 
     def check(self, pred_results):
         bbox_list = {}
@@ -46,7 +48,7 @@ class CheckBbox:
         return self.get_curr_sign(), self.get_second_sign(), self.get_curr_size(), self.get_second_size()
 
     def get_curr_sign(self):
-        if not self.curr_bbox:
+        if not self.curr_bbox or self.curr_bbox['size'] < self.detection_size:
             return "none"
         if self.second_bbox and (self.curr_bbox['cls_name'] == "stop" or self.second_bbox['cls_name'] == "stop") and (self.curr_bbox['size'] - self.second_bbox['size'] < self.size_offset):
             if self.curr_bbox['cls_name'] == "turn_right" or self.second_bbox['cls_name'] == "turn_right":

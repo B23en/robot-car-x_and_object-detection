@@ -12,8 +12,9 @@ def picar_init():
 def start(px: Picarx):
     print("activate.")
 
-    time.sleep(2)
+    time.sleep(3)
     picar_init()
+    print("init.")
     time.sleep(1)
     print("start.")
     while True:

@@ -40,19 +40,21 @@ def track(px: Picarx, th):
         elif curr_sign == "stop_and_turn_right":
             stop_and_turn_right(px, th)
         else:
-            px.forward(20)
-            time.sleep(0.5)
+            px.forward(10)
+            time.sleep(0.2)
             px.stop()
         
         reset_sign()
         time.sleep(0.5)
+        # detect_around(px)
+        time.sleep(0.5)
         return
 
     print(f"[track] - l({l}) m({m}) r({r})", end=' >> ')
-    if m > th:
+    if m > th: # need to test
         print("'forward'")
         px.set_dir_servo_angle(0)
-        px.forward(20)
+        px.forward(15)
     elif l > th:
         print("'left'")
         px.set_dir_servo_angle(-20)
@@ -61,26 +63,28 @@ def track(px: Picarx, th):
         print("'right'")
         px.set_dir_servo_angle(20)
         px.forward(20)
-    elif m < th/3 and l < th/3 and r < th/3:
-        print("'stop'")
-        px.stop()
+    # elif m < th/3 and l < th/3 and r < th/3:
+    #     print("'stop'")
+    #     px.stop()
     else:
         print("'forward?'")
         px.set_dir_servo_angle(0)
-        px.forward(20)
+        px.forward(15)
 
 # turn right sign
 def turn_right(px, th): 
     print("[turn_right]")
     px.stop()
     time.sleep(0.5)
+    px.set_dir_servo_angle(0)
+    time.sleep(0.1)
     px.backward(20)
     time.sleep(0.49)
     px.stop()
     time.sleep(0.5)
     px.set_dir_servo_angle(25)
     time.sleep(0.5)
-    px.forward(30)
+    px.forward(20)
     time.sleep(1.8)
     px.stop()
     time.sleep(0.5)
@@ -89,8 +93,8 @@ def turn_right(px, th):
         l, m, r = px.get_grayscale_data()
         if r > th:
             break
-        print("tune")
-        px.forward(10)
+        print(f"tune - l({l}) m({m}) r({r})")
+        px.forward(5)
         time.sleep(0.05)
     px.stop()
 
@@ -98,15 +102,9 @@ def turn_right(px, th):
     px.set_dir_servo_angle(0)
     time.sleep(0.1)
     px.backward(10)
-    time.sleep(1)
+    time.sleep(1.5)
     px.stop()
     time.sleep(0.1)
-    # px.set_cam_pan_angle(15)
-    # time.sleep(1)
-    # px.set_cam_pan_angle(-15)
-    # time.sleep(1)
-    # px.set_cam_pan_angle(0)
-    # time.sleep(0.1)
 
     print("turn right done.")
 
@@ -115,13 +113,15 @@ def turn_left(px, th):
     print("[turn_left]")
     px.stop()
     time.sleep(0.5)
+    px.set_dir_servo_angle(0)
+    time.sleep(0.1)
     px.backward(20)
     time.sleep(0.49)
     px.stop()
     time.sleep(0.5)
     px.set_dir_servo_angle(-25)
     time.sleep(0.5)
-    px.forward(30)
+    px.forward(20)
     time.sleep(1.8)
     px.stop()
     time.sleep(0.5)
@@ -130,8 +130,8 @@ def turn_left(px, th):
         l, m, r = px.get_grayscale_data()
         if l > th:
             break
-        print("tune")
-        px.forward(10)
+        print(f"tune - l({l}) m({m}) r({r})")
+        px.forward(5)
         time.sleep(0.05)
     px.stop()
 
@@ -139,7 +139,7 @@ def turn_left(px, th):
     px.set_dir_servo_angle(0)
     time.sleep(0.1)
     px.backward(10)
-    time.sleep(1)
+    time.sleep(1.5)
     px.stop()
     time.sleep(0.1)
 
@@ -212,3 +212,29 @@ def stop_and_turn_left(px, th):
     time.sleep(0.1)
     wait(px)
     turn_left(px, th)
+
+def detect_around(px):
+    print("[detect]")
+    time.sleep(0.1)
+    for dir in range(26):
+        px.set_cam_pan_angle(dir)
+        time.sleep(0.1)
+
+    time.sleep(1)
+
+    for dir in range(26, -1, -1):
+        px.set_cam_pan_angle(dir)
+        time.sleep(0.1)
+
+    px.set_cam_pan_angle(0)
+    time.sleep(0.5)
+
+    for dir in range(0, -26, -1):
+        px.set_cam_pan_angle(dir)
+        time.sleep(0.1)
+
+    time.sleep(1)
+
+    for dir in range(-26, 1, 1):
+        px.set_cam_pan_angle(dir)
+        time.sleep(0.1)
