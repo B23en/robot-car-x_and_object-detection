@@ -14,7 +14,12 @@ docs/*
 etc/*
 models/*
 runs/
-!models/best.pt
+!models/best_s_adv.pt
+
+.etc/
+.docs/
+
+.robots/etc
 
 # unused files
 dataset/test.json
